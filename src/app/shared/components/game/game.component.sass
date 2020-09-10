@@ -1,0 +1,48 @@
+.game__wrapper
+  margin: 0 15px
+  height: 100%
+  position: relative
+  border-radius: 5px
+  box-shadow: 0 0 6px #000
+  background: #fff
+  overflow: hidden
+
+
+.game__image-wrapper
+  cursor: pointer
+  position: relative
+  width: 100%
+  padding-top: 75%
+
+
+.game__image
+  width: 100%
+  height: 100%
+  border: 0
+  position: absolute
+  top: 0
+  left: 0
+  transition: .5s ease-in
+  &:hover
+    filter: brightness(30%)
+
+
+.game__image:hover .game__actions:hover
+
+  opacity: 1
+
+
+
+.game__actions
+  position: absolute
+  top: 10%
+  right: 0
+  left: 0
+  padding: 0
+  transition: .5s ease-in
+  opacity: 0
+  color: #ffffff
+  &:hover
+    opacity: 1
+
+
