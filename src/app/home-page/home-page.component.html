@@ -1,19 +1,72 @@
-<div class="game-catalog">
-  <h3 class="game-catalog__title">
-    Game catalog
-  </h3>
-  <div class="row">
-    <div class="col">
-      <div class="game-catalog__games">
-        <app-game class="game"></app-game>
-        <app-game class="game"></app-game>
-        <app-game class="game"></app-game>
-        <app-game class="game"></app-game>
-        <app-game class="game"></app-game>
-        <app-game class="game"></app-game>
-        <app-game class="game"></app-game>
-        <app-game class="game"></app-game>
+<div *ngIf="!loading">
+  <div class="game-catalog">
+    <div class="game-catalog__search">
+      <form class="game-catalog__search__form">
+        <input class="game-catalog__search__input" placeholder="Search for games">
+        <button type="button" class="game-catalog__search__btn">Search</button>
+      </form>
+      <div class="game-catalog__search__filter">
+        <select>
+          <option>1. All Games</option>
+          <option>2. Favorites</option>
+          <option *ngFor="let category of dataService.data.categories; let i = index">
+            {{i+3}}. {{category.Name.en}}
+          </option>
+        </select>
+      </div>
+    </div>
+    <h3 class="game-catalog__title">
+      Game catalog
+    </h3>
+    <div class="row">
+      <div class="col">
+        <div class="game-catalog__games">
+          <div class="game" *ngFor="let game of paginationArray">
+
+            <div class="game__wrapper">
+              <div class="game__default">
+                <div class="game__image-wrapper">
+                  <img class="game__image" alt [src]="game.ImageFullPath">
+                </div>
+              </div>
+
+              <div class="game__actions">
+                <div class="game__actions-title">{{game.Name.en}}</div>
+                <div class="game__actions-buttons">
+                  <div class="wrap">
+                    <button type="button" class="btn">
+          <span class="btn__content">
+            Favorite
+          </span>
+                    </button>
+                  </div>
+                  <div class="wrap">
+                    <button type="button" class="btn">
+                      <span class="btn__content">Play</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <ngb-pagination
+          class="d-flex justify-content-center"
+          [collectionSize]="collectionSize"
+          [pageSize]="itemsPerPage"
+          [(page)]="page"
+          [maxSize]="5"
+          [rotate]="true"
+          [ellipses]="false"
+          [boundaryLinks]="true"
+          (pageChange)="onPageChange($event)"
+        ></ngb-pagination>
+
       </div>
     </div>
   </div>
 </div>
+
+<p *ngIf="loading">Loading...</p>
