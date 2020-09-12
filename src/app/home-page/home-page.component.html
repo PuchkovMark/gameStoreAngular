@@ -1,4 +1,4 @@
-<div *ngIf="!loading">
+<div *ngIf="!loading.getValue()">
   <div class="game-catalog">
     <div class="game-catalog__search">
       <form class="game-catalog__search__form">
@@ -76,6 +76,6 @@
   </div>
 </div>
 
-<p *ngIf="!paginationArray && !loading">Not Found</p>
+<p *ngIf="!paginationArray && !loading.getValue()">Not Found</p>
 
-<p *ngIf="loading">Loading...</p>
+<p *ngIf="loading.getValue()">Loading...</p>

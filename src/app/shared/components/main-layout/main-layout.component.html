@@ -1,5 +1,8 @@
 <nav class="navbar main">
   <h1>Game Store</h1>
+  <div *ngIf="!loading.getValue()" style="margin: 10px; border: 1px solid silver; padding: 5px">
+    {{dataService.arraySize}} / {{dataService.maxArraySize}}
+  </div>
 </nav>
 
 <div class="container">

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core'
+import {DataService} from '../../data.service'
 
 @Component({
   selector: 'app-main-layout',
@@ -6,8 +7,9 @@ import { Component, OnInit } from '@angular/core'
   styleUrls: ['./main-layout.component.sass']
 })
 export class MainLayoutComponent implements OnInit {
+  public loading = this.dataService.loading
 
-  constructor() { }
+  constructor(public dataService: DataService) {}
 
   ngOnInit(): void {
   }

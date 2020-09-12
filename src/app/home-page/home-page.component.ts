@@ -7,7 +7,7 @@ import {DataService} from '../shared/data.service'
   styleUrls: ['./home-page.component.sass']
 })
 export class HomePageComponent implements OnInit {
-  public loading = true
+  public loading = this.dataService.loading
   public page: number
   public itemsPerPage: number
   public games: Array<any>
@@ -33,8 +33,10 @@ export class HomePageComponent implements OnInit {
       this.collectionSize = this.games.length
       this.paginationArrayGeneral = this.pagination(this.games, this.collectionSize)
       console.log(this.data)
+      this.dataService.maxArraySize = this.games.length
+      this.dataService.arraySize = this.collectionSize
       this.paginationArray = this.paginationArrayGeneral.get(this.page)
-      this.loading = false
+      this.loading.next(false)
     })
   }
   sortAlphabetically(): any {
@@ -71,7 +73,6 @@ export class HomePageComponent implements OnInit {
     if (this.itemsPerPage <= 0) {
       this.itemsPerPage = 1
     }
-    this.loading = false
     this.paginationArrayGeneral = this.pagination(this.games, this.collectionSize)
     return this.onPageChange(1)
   }
@@ -97,18 +98,17 @@ export class HomePageComponent implements OnInit {
     }
   }
   onFilterChange(event: any): any {
-    this.loading = true
     const filterValueDirt = event.target.value.split(' ')
     filterValueDirt.splice(0, 1)
     const filterValue = filterValueDirt.join(' ').trim()
     console.log(filterValue)
     if (filterValue === 'All Games') {
-      this.loading = false
+      this.dataService.arraySize = this.games.length
       return this.paginationArray = this.paginationArrayGeneral.get(1)
     }
     if (filterValue === 'Favorites') {
       if (!this.indexFavoriteItem) {
-        this.loading = false
+        this.dataService.arraySize = 0
         return this.paginationArray = 0
       }
       this.paginationArray = 0
@@ -116,7 +116,7 @@ export class HomePageComponent implements OnInit {
       for (let i = 0; i < this.indexFavoriteItem; i++) {
         temp.push(JSON.parse(localStorage.getItem(`${i}`)))
       }
-      this.loading = false
+      this.dataService.arraySize = temp.length
       return this.paginationArray = temp
     }
     const catInfo = this.categories.find(e => e.Name.en === filterValue)
@@ -125,7 +125,7 @@ export class HomePageComponent implements OnInit {
       console.log(arrayFilter)
       this.collectionSize = arrayFilter.length
       this.paginationArrayGeneral = this.pagination(arrayFilter, this.collectionSize)
-      this.loading = false
+      this.dataService.arraySize = this.collectionSize
       return this.paginationArray = this.paginationArrayGeneral.get(1)
     }
   }
