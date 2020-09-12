@@ -2,15 +2,18 @@
   <div class="game-catalog">
     <div class="game-catalog__search">
       <form class="game-catalog__search__form">
+        <label for="itemPerPage">Items per page: </label>
+        <input class="game-catalog__search__input" id="itemPerPage" placeholder="Items per page" type="number"
+               [value]="itemsPerPage" (change)="onChange($event)">
         <input class="game-catalog__search__input" placeholder="Search for games">
         <button type="button" class="game-catalog__search__btn">Search</button>
       </form>
       <div class="game-catalog__search__filter">
-        <select>
+        <select (change)="onFilterChange($event)">
           <option>1. All Games</option>
           <option>2. Favorites</option>
           <option *ngFor="let category of dataService.data.categories; let i = index">
-            {{i+3}}. {{category.Name.en}}
+            {{i + 3}}. {{category.Name.en}}
           </option>
         </select>
       </div>
@@ -20,7 +23,7 @@
     </h3>
     <div class="row">
       <div class="col">
-        <div class="game-catalog__games">
+        <div class="game-catalog__games" *ngIf="paginationArray">
           <div class="game" *ngFor="let game of paginationArray">
 
             <div class="game__wrapper">
@@ -34,10 +37,10 @@
                 <div class="game__actions-title">{{game.Name.en}}</div>
                 <div class="game__actions-buttons">
                   <div class="wrap">
-                    <button type="button" class="btn">
-          <span class="btn__content">
-            Favorite
-          </span>
+                    <button type="button" class="btn" (click)="onFavorite($event)">
+                      <span class="btn__content">
+                        Favorite
+                      </span>
                     </button>
                   </div>
                   <div class="wrap">
@@ -50,23 +53,29 @@
             </div>
 
           </div>
+
+          <div style="width: 100%; text-align: center">
+            <ngb-pagination
+              class="d-flex justify-content-center"
+              [collectionSize]="collectionSize"
+              [pageSize]="itemsPerPage"
+              [(page)]="page"
+              [maxSize]="5"
+              [rotate]="true"
+              [ellipses]="false"
+              [boundaryLinks]="true"
+              (pageChange)="onPageChange($event)"
+            ></ngb-pagination>
+          </div>
         </div>
 
-        <ngb-pagination
-          class="d-flex justify-content-center"
-          [collectionSize]="collectionSize"
-          [pageSize]="itemsPerPage"
-          [(page)]="page"
-          [maxSize]="5"
-          [rotate]="true"
-          [ellipses]="false"
-          [boundaryLinks]="true"
-          (pageChange)="onPageChange($event)"
-        ></ngb-pagination>
+
 
       </div>
     </div>
   </div>
 </div>
+
+<p *ngIf="!paginationArray && !loading">Not Found</p>
 
 <p *ngIf="loading">Loading...</p>
