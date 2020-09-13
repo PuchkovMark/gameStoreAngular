@@ -5,8 +5,8 @@
         <label for="itemPerPage">Items per page: </label>
         <input class="game-catalog__search__input" id="itemPerPage" placeholder="Items per page" type="number"
                [value]="itemsPerPage" (change)="onChange($event)">
-        <input class="game-catalog__search__input" placeholder="Search for games">
-        <button type="button" class="game-catalog__search__btn">Search</button>
+        <input class="game-catalog__search__input" placeholder="Search for games" (input)="onSearchInput($event)">
+        <button type="button" class="game-catalog__search__btn" (click)="onSearchClick()">Search</button>
       </form>
       <div class="game-catalog__search__filter">
         <select (change)="onFilterChange($event)">
